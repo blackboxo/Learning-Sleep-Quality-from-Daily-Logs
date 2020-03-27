@@ -1,5 +1,8 @@
 import tensorflow as tf
 import numpy as np
+
+import matplotlib as mpl
+mpl.use('TkAgg')
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import os
@@ -184,6 +187,9 @@ def GAIN(window,mask_window,epouh):
     # Iteration Initialization
     i = 1
 
+    train_loss =[]
+    test_loss=[]
+
     #%% Start Iterations
     for it in pyprind.prog_bar(range(epouh)):    
         
@@ -234,8 +240,11 @@ def GAIN(window,mask_window,epouh):
             i += 1
             plt.close(fig)
             
+        train_loss.append(MSE_train_loss_curr)
+        test_loss.append(MSE_test_loss_curr)
+        
         #%% Intermediate Losses
-        if it % 100 == 0:
+        if it % 10 == 0:
             print('Iter: {}'.format(it))
             print('Train_loss: {:.4}'.format(MSE_train_loss_curr))
             print('Test_loss: {:.4}'.format(MSE_test_loss_curr))
@@ -250,7 +259,14 @@ def GAIN(window,mask_window,epouh):
             gen_samples = M_mb * X_mb + (1-M_mb) * gen_samples
          
 
-   
+    l1=plt.plot(np.arange(epouh),train_loss,'r--',label='Train Loss')
+    l2=plt.plot(np.arange(epouh),test_loss,'g--',label='Test Loss')
+    plt.plot(np.arange(epouh),train_loss,'ro-',np.arange(epouh),test_loss)
+    plt.title('Train/Test Loss of Imp-GAIN')
+    plt.xlabel('epoch')
+    plt.ylabel('loss')
+    plt.legend()
+    plt.show()
     saver = tf.train.Saver(var_list=theta_G)
     
     with tf.Session() as sess:

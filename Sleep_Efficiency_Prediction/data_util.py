@@ -58,9 +58,10 @@ def load_dataset(mode):
         data = np.genfromtxt("../data/sample_data_sleeps_Imp-GAIN.csv", delimiter=',')[1:]
     else:
         data = np.genfromtxt("../data/sample_data_sleeps_ORIGINAL.csv", delimiter=',')[1:]
-       
+    
+    # remove date and month data
     index = data[:, 0:3]
-    value = np.concatenate([index[:, 0:1], data[:, 3:17]], axis = 1)        
+    value = np.concatenate([index[:, 0:1], data[:, 3:17]], axis = 1)   
     return data, index, value
 
 def load_header():

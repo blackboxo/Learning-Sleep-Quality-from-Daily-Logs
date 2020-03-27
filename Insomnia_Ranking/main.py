@@ -24,7 +24,7 @@ if __name__ == '__main__':
     window＿size = 8
     test_No = 1
 
-    json_path = '....../parameter.json'
+    json_path = 'parameter.json'
 
     with open(json_path,'r') as file_object:
         parameter = json.load(file_object)

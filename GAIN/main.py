@@ -18,7 +18,7 @@ def Argument():
 if __name__ == '__main__':
 
 
-    json_path = '....../parameter.json'
+    json_path = 'parameter.json'
     
     with open(json_path,'r') as file_object:
         parameter = json.load(file_object)
@@ -41,7 +41,7 @@ if __name__ == '__main__':
 
     ##Calculating Max and Min
     max_ = sleep_activity_data_csv[sleep_activity_data_csv.columns[3:]].max()  
-    min_ = sleep_activity_data_csv[sleep_activity_data_csv.columns[3:]].min()  
+    min_ = sleep_activity_data_csv[sleep_activity_data_csv.columns[3:]].min()
     
     ##FillNa with 0.8
     sleep_activity_data = sleep_activity_data_csv.fillna(0.8)
@@ -62,6 +62,7 @@ if __name__ == '__main__':
     ##setting mask matrix and can set the number of missong data
     mask_dataframe = Mask_dataframe(sleep_activity_data_csv)
     mask_window = Mask_window(user_Id_date,mask_dataframe)
+
 
     ##Building GAIN model
     generate_window = GAIN(window,mask_window,epoch).reshape((-1,8,len(feature_name)))
